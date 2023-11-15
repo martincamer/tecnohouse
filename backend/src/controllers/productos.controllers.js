@@ -2,20 +2,21 @@ import { pool } from "../db.js";
 
 export const getPerfiles = async (req, res, next) => {
   //obtener perfiles
-  const result = await pool.query("SELECT * FROM perfiles WHERE user_id = $1", [
-    req.userId,
-  ]);
+  const result = await pool.query(
+    "SELECT * FROM productos WHERE user_id = $1",
+    [req.userId]
+  );
   return res.json(result.rows);
 };
 
 export const getPerfil = async (req, res) => {
-  const result = await pool.query("SELECT * FROM perfiles WHERE id = $1", [
+  const result = await pool.query("SELECT * FROM productos WHERE id = $1", [
     req.params.id,
   ]);
 
   if (result.rowCount === 0) {
     return res.status(404).json({
-      message: "No existe una tarea con ese id",
+      message: "No existe ningun perfil con ese id",
     });
   }
 
@@ -23,12 +24,13 @@ export const getPerfil = async (req, res) => {
 };
 
 export const createPerfil = async (req, res, next) => {
-  const { nombre, color, descripcion, categoria, stock } = req.body;
+  const { nombre, color, descripcion, categoria, stock, ancho, alto } =
+    req.body;
 
   try {
     const result = await pool.query(
-      "INSERT INTO perfiles (nombre, color ,descripcion, categoria,stock,user_id) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *",
-      [nombre, color, descripcion, categoria, stock, req.userId]
+      "INSERT INTO productos (nombre, color ,descripcion, categoria,stock,ancho,alto,user_id) VALUES ($1, $2, $3, $4, $5, $6,$7,$8) RETURNING *",
+      [nombre, color, descripcion, categoria, stock, ancho, alto, req.userId]
     );
 
     res.json(result.rows[0]);
@@ -44,11 +46,12 @@ export const createPerfil = async (req, res, next) => {
 
 export const actualizarPerfil = async (req, res) => {
   const id = req.params.id;
-  const { nombre, color, descripcion, categoria, stock } = req.body;
+  const { nombre, color, descripcion, categoria, stock, ancho, alto } =
+    req.body;
 
   const result = await pool.query(
-    "UPDATE perfiles SET nombre = $1, color = $2 ,stock = $3, categoria = $4, descripcion = $5 WHERE id = $6",
-    [nombre, color, stock, categoria, descripcion, id]
+    "UPDATE productos SET nombre = $1, color = $2 ,stock = $3, categoria = $4, descripcion = $5, ancho = $6, alto = $7 WHERE id = $8",
+    [nombre, color, stock, categoria, descripcion, ancho, alto, id]
   );
 
   if (result.rowCount === 0) {
@@ -63,7 +66,7 @@ export const actualizarPerfil = async (req, res) => {
 };
 
 export const eliminarPerfil = async (req, res) => {
-  const result = await pool.query("DELETE FROM perfiles WHERE id = $1", [
+  const result = await pool.query("DELETE FROM productos WHERE id = $1", [
     req.params.id,
   ]);
 

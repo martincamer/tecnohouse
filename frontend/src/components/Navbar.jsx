@@ -1,28 +1,28 @@
 import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthProvider";
 
-const rutasPrivadas = [
-  {
-    name: "Inicio",
-    path: "/home",
-  },
-  {
-    name: "Perfiles",
-    path: "/productos",
-  },
-  {
-    name: "Clientes",
-    path: "/clientes",
-  },
-  {
-    name: "Presupuestos",
-    path: "/presupuestos",
-  },
-  {
-    name: "Realizar Venta",
-    path: "/ventas-clientes",
-  },
-];
+// const rutasPrivadas = [
+//   {
+//     name: "Inicio",
+//     path: "/",
+//   },
+//   {
+//     name: "Perfiles",
+//     path: "/productos",
+//   },
+//   {
+//     name: "Clientes",
+//     path: "/clientes",
+//   },
+//   {
+//     name: "Presupuestos",
+//     path: "/presupuestos",
+//   },
+//   {
+//     name: "Realizar Venta",
+//     path: "/ventas-clientes",
+//   },
+// ];
 
 const rutasuno = [
   {
@@ -34,7 +34,7 @@ const rutasuno = [
 const rutasdos = [
   {
     name: "Login",
-    path: "/login",
+    path: "/",
   },
   {
     name: "Registrarse",
@@ -53,8 +53,8 @@ export const Navbar = () => {
         } mx-auto`}
       >
         <div>
-          <Link to={"/home"} className="text-2xl font-extrabold text-red-500">
-            TecnoHouse <span className="text-yellow-500">Aberturas</span>
+          <Link to={"/"} className="text-2xl font-extrabold text-blue-500">
+            TecnoHouse <span className="text-primary">Aberturas</span>
           </Link>
         </div>
 

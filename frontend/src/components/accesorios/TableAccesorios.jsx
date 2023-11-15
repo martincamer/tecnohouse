@@ -1,11 +1,11 @@
-import { useAluminioContext } from "../../context/AluminioProvider";
+import { useAccesoriosContext } from "../../context/AccesoriosProvider";
 
-export const TableProducts = ({
+export const TableAccesorios = ({
   results,
   openModalEditar,
   handlePerfilSeleccionado,
 }) => {
-  const { handleEliminar } = useAluminioContext();
+  const { handleEliminar } = useAccesoriosContext();
 
   return (
     <div className="border-[1px] border-gray-200 rounded shadow-black/10 shadow flex flex-col gap-3 w-full">

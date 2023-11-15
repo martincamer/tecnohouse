@@ -1,13 +1,19 @@
 import { Dialog, Menu, Transition } from "@headlessui/react";
-import { Fragment, useEffect, useState } from "react";
+import { Fragment, useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { editarPerfil, obtenerUnicoPerfil } from "../../api/perfiles.api";
-import { useAluminioContext } from "../../context/AluminioProvider";
+import {
+  editarAccesorio,
+  obtenerUnicoAccesorio,
+} from "../../api/accesorios.api";
 import { ToastContainer, toast } from "react-toastify";
+import { useAccesoriosContext } from "../../context/AccesoriosProvider";
 
-export const ModalCrearEditar = ({ closeModalEditar, isOpenEditar }) => {
+export const ModalCrearEditarAccesorios = ({
+  closeModalEditar,
+  isOpenEditar,
+}) => {
   const { obtenerId, results, setPerfiles, categorias, colores } =
-    useAluminioContext();
+    useAccesoriosContext();
 
   const {
     register,
@@ -18,7 +24,7 @@ export const ModalCrearEditar = ({ closeModalEditar, isOpenEditar }) => {
 
   useEffect(() => {
     async function loadData() {
-      const res = await obtenerUnicoPerfil(obtenerId);
+      const res = await obtenerUnicoAccesorio(obtenerId);
 
       setValue("nombre", res.data.nombre);
       setValue("color", res.data.color);
@@ -33,7 +39,7 @@ export const ModalCrearEditar = ({ closeModalEditar, isOpenEditar }) => {
   }, [obtenerId]);
 
   const onSubmitEditar = handleSubmit(async (data) => {
-    const res = await editarPerfil(obtenerId, data);
+    const res = await editarAccesorio(obtenerId, data);
 
     const objetEN = JSON.parse(res.config.data);
 
@@ -113,7 +119,7 @@ export const ModalCrearEditar = ({ closeModalEditar, isOpenEditar }) => {
                   as="h3"
                   className="text-lg font-medium leading-6 text-gray-900"
                 >
-                  Editar el perfil
+                  Editar el accesorio
                 </Dialog.Title>
                 <form
                   onSubmit={onSubmitEditar}

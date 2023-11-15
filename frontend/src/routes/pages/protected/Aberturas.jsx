@@ -1,20 +1,20 @@
-import { IntroProductosStock } from "../../../components/ui/IntroProductosStock";
-import { IntroTitleProductos } from "../../../components/ui/IntroTitleProductos";
-import { TableProducts } from "../../../components/ui/TableProducts";
-import { CategoriasProductos } from "../../../components/ui/CategoriasProductos";
 import { Search } from "../../../components/ui/Search";
-import { ModalCrearPerfil } from "../../../components/ui/ModalCrearPerfil";
-import { ModalCrearEditar } from "../../../components/ui/ModalCrearEditar";
-import { useAluminioContext } from "../../../context/AluminioProvider";
 import { ToastContainer } from "react-toastify";
-import { ModalCrearNuevaCategoria } from "../../../components/ui/ModalCrearNuevaCategoria";
-import { ModalVerCategorias } from "../../../components/ui/ModalVerCategorias";
-import { ModalCrearNuevoColor } from "../../../components/ui/ModalCrearNuevoColor";
-import { ModalVerColores } from "../../../components/ui/ModalVerColores";
 import { useAuth } from "../../../context/AuthProvider";
 import { Spinner } from "../../../components/Spinner";
+import { useAberturasContext } from "../../../context/AluminioAberturas";
+import { IntroTitleAberturas } from "../../../components/aberturas/IntroTitleProductos";
+import { IntroAberturasStock } from "../../../components/aberturas/IntroProductosStock";
+import { CategoriasAberturas } from "../../../components/aberturas/CategoriasAberturas";
+import { TableAberturas } from "../../../components/aberturas/TableAberturas";
+import { ModalCrearAberturas } from "../../../components/aberturas/ModalCrearAberturas";
+import { ModalCrearNuevaCategoria } from "../../../components/aberturas/ModalCrearNuevaCategoria";
+import { ModalCrearNuevoColor } from "../../../components/aberturas/ModalCrearNuevoColor";
+import { ModalVerColores } from "../../../components/aberturas/ModalVerColores";
+import { ModalCrearEditar } from "../../../components/aberturas/ModalCrearEditar";
+import { ModalVerCategorias } from "../../../components/aberturas/ModalVerCategorias";
 
-export const Productos = () => {
+export const Aberturas = () => {
   const {
     handlePerfilSeleccionado,
     closeModal,
@@ -32,7 +32,7 @@ export const Productos = () => {
     isOpenVerCategorias,
     closeModalVerCategoria,
     openModalVerCategoria,
-  } = useAluminioContext();
+  } = useAberturasContext();
 
   const { spinner } = useAuth();
 
@@ -41,25 +41,25 @@ export const Productos = () => {
   ) : (
     <main className="h-screen w-full py-14 px-14 ">
       <section className="max-md:w-full mx-auto py-[20px] px-[20px] h-full border-[1px] border-gray-300 rounded shadow-black/20 shadow-md flex flex-col gap-10 overflow-y-scroll">
-        <IntroTitleProductos />
+        <IntroTitleAberturas />
 
-        <IntroProductosStock results={results} />
+        <IntroAberturasStock results={results} />
 
         <Search search={search} searcher={searcher} />
 
-        <CategoriasProductos
+        <CategoriasAberturas
           openModalVerCategoria={openModalVerCategoria}
           openModalCrearCategoria={openModalCrearCategoria}
           openModal={openModal}
         />
 
-        <TableProducts
+        <TableAberturas
           handlePerfilSeleccionado={handlePerfilSeleccionado}
           openModalEditar={openModalEditar}
           results={results}
         />
 
-        <ModalCrearPerfil
+        <ModalCrearAberturas
           openModal={openModal}
           closeModal={closeModal}
           isOpen={isOpen}

@@ -1,11 +1,11 @@
-import { useAluminioContext } from "../../context/AluminioProvider";
+import { useAberturasContext } from "../../context/AluminioAberturas";
 
-export const CategoriasProductos = ({
+export const CategoriasAberturas = ({
   openModal,
   openModalCrearCategoria,
   openModalVerCategoria,
 }) => {
-  const { openModalEditarColores, openModalVerColores } = useAluminioContext();
+  const { openModalEditarColores, openModalVerColores } = useAberturasContext();
 
   return (
     <div>
@@ -14,7 +14,7 @@ export const CategoriasProductos = ({
           onClick={openModal}
           className="bg-green-500 text-primary font-bold py-2 px-3 rounded cursor-pointer hover:shadow hover:shadow-black/20 transition-all ease-in-out"
         >
-          Crear nuevo perfil
+          Crear nuevo producto o objeto
         </button>
         <button
           onClick={openModalCrearCategoria}

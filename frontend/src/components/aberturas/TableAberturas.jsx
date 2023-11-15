@@ -1,11 +1,11 @@
-import { useAluminioContext } from "../../context/AluminioProvider";
+import { useAberturasContext } from "../../context/AluminioAberturas";
 
-export const TableProducts = ({
+export const TableAberturas = ({
   results,
   openModalEditar,
   handlePerfilSeleccionado,
 }) => {
-  const { handleEliminar } = useAluminioContext();
+  const { handleEliminar } = useAberturasContext();
 
   return (
     <div className="border-[1px] border-gray-200 rounded shadow-black/10 shadow flex flex-col gap-3 w-full">
@@ -18,6 +18,7 @@ export const TableProducts = ({
             <th className="p-3">Categoria</th>
             <th className="p-3">Color</th>
             <th className="p-3">Detalle</th>
+            <th className="p-3">Tamaño Ventana | Ancho x Alto</th>
             <th className="p-3">Eliminar</th>
             <th className="p-3">Editar</th>
           </tr>
@@ -42,6 +43,9 @@ export const TableProducts = ({
               </th>
               <th className="border-[1px] border-gray-300 p-3 font-medium">
                 {p.descripcion}
+              </th>
+              <th className="border-[1px] border-gray-300 p-3 font-medium">
+                {p.ancho} x {p.alto}
               </th>
               {/* <th className="border-[1px] border-gray-300 p-3 font-medium">
                 {p.disponible ? "SI" : "NO"}

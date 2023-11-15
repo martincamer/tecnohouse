@@ -1,6 +1,6 @@
 import React from "react";
 
-export const IntroProductosStock = ({ results }) => {
+export const IntroAberturasStock = ({ results }) => {
   //sumar totales
   const unidadesEnStock = () => {
     return results.reduce((sum, b) => {

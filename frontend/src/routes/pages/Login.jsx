@@ -19,7 +19,7 @@ export const Login = () => {
     const user = await signin(data);
 
     if (user) {
-      navigate("/home");
+      navigate("/");
     }
   });
 

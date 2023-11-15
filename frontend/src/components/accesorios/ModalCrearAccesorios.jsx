@@ -1,52 +1,30 @@
 import { Dialog, Menu, Transition } from "@headlessui/react";
-import { Fragment, useEffect, useState } from "react";
+import { Fragment } from "react";
 import { useForm } from "react-hook-form";
-import { editarPerfil, obtenerUnicoPerfil } from "../../api/perfiles.api";
-import { useAluminioContext } from "../../context/AluminioProvider";
 import { ToastContainer, toast } from "react-toastify";
+import { useAccesoriosContext } from "../../context/AccesoriosProvider";
+import { crearAccesorioNuevo } from "../../api/accesorios.api";
 
-export const ModalCrearEditar = ({ closeModalEditar, isOpenEditar }) => {
-  const { obtenerId, results, setPerfiles, categorias, colores } =
-    useAluminioContext();
+export const ModalCrearAccesorios = ({ closeModal, isOpen }) => {
+  const { results, setPerfiles, categorias, colores } = useAccesoriosContext();
 
   const {
     register,
     handleSubmit,
     formState: { errors },
-    setValue,
+    reset,
   } = useForm();
 
-  useEffect(() => {
-    async function loadData() {
-      const res = await obtenerUnicoPerfil(obtenerId);
+  console.log(colores);
 
-      setValue("nombre", res.data.nombre);
-      setValue("color", res.data.color);
-      setValue("stock", res.data.stock);
-      setValue("peso_neto_barra_6mts", res.data.peso_neto_barra_6mts);
-      setValue("categoria", res.data.categoria);
-      setValue("descripcion", res.data.descripcion);
-      setValue("disponible", res.data.disponible);
-      setValue("id", res.data.id);
-    }
-    loadData();
-  }, [obtenerId]);
+  const onSubmit = handleSubmit(async (data) => {
+    const { data: nuevoValor } = await crearAccesorioNuevo(data);
 
-  const onSubmitEditar = handleSubmit(async (data) => {
-    const res = await editarPerfil(obtenerId, data);
+    const proyectoActualizado = [...results, nuevoValor];
 
-    const objetEN = JSON.parse(res.config.data);
+    setPerfiles(proyectoActualizado);
 
-    const perfilesActualizados = results.map((perfilState) =>
-      perfilState.id === objetEN.id ? objetEN : perfilState
-    );
-
-    setPerfiles(perfilesActualizados);
-
-    // console.log(results);
-    console.log(perfilesActualizados);
-
-    toast.success("¡Producto editado correctamente!", {
+    toast.success("¡Producto creado correctamente!", {
       position: "top-right",
       autoClose: 1500,
       hideProgressBar: false,
@@ -56,16 +34,18 @@ export const ModalCrearEditar = ({ closeModalEditar, isOpenEditar }) => {
       progress: undefined,
       theme: "light",
     });
+
+    reset();
   });
 
   return (
     <Menu as="div" className="z-50">
       <ToastContainer />
-      <Transition appear show={isOpenEditar} as={Fragment}>
+      <Transition appear show={isOpen} as={Fragment}>
         <Dialog
           as="div"
           className="fixed inset-0 z-10 overflow-y-auto"
-          onClose={closeModalEditar}
+          onClose={closeModal}
         >
           <Transition.Child
             as={Fragment}
@@ -113,10 +93,10 @@ export const ModalCrearEditar = ({ closeModalEditar, isOpenEditar }) => {
                   as="h3"
                   className="text-lg font-medium leading-6 text-gray-900"
                 >
-                  Editar el perfil
+                  Crear nuevo accesorio
                 </Dialog.Title>
                 <form
-                  onSubmit={onSubmitEditar}
+                  onSubmit={onSubmit}
                   className="mt-2 border-t pt-4 pb-4 space-y-2"
                 >
                   <div className="flex flex-col gap-2">
@@ -179,21 +159,11 @@ export const ModalCrearEditar = ({ closeModalEditar, isOpenEditar }) => {
                     />
                   </div>
                   <div className="flex flex-col gap-2">
-                    <label className="text-[14px] font-bold">ID:</label>
-                    <input
-                      {...register("id", { required: true })}
-                      className="border-gray-300 border-[1px] py-2 px-2 rounded shadow shadow-black/10 outline-none"
-                      type="text"
-                      placeholder="id del perfil"
-                      disabled
-                    />
-                  </div>
-                  <div className="flex flex-col gap-2">
                     <input
                       className="bg-secondary hover:shadow-black/20 hover:shadow transition-all ease-in-out py-2 px-2 rounded shadow shadow-black/10 outline-none text-white font-bold text-center cursor-pointer"
                       type="submit"
-                      value={"Editar producto"}
-                      onClick={closeModalEditar}
+                      value={"Crear producto"}
+                      onClick={closeModal}
                     />
                   </div>
                 </form>
@@ -202,7 +172,7 @@ export const ModalCrearEditar = ({ closeModalEditar, isOpenEditar }) => {
                   <button
                     type="button"
                     className="inline-flex justify-center px-4 py-2 text-sm text-red-900 bg-red-100 border border-transparent rounded-md hover:bg-red-200 duration-300 cursor-pointer"
-                    onClick={closeModalEditar}
+                    onClick={closeModal}
                   >
                     Cerrar Ventana
                   </button>

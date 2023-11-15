@@ -1,12 +1,15 @@
 import { Dialog, Menu, Transition } from "@headlessui/react";
 import { Fragment } from "react";
-import { useAluminioContext } from "../../context/AluminioProvider";
-import { crearPerfilNuevo } from "../../api/perfiles.api";
 import { useForm } from "react-hook-form";
 import { ToastContainer, toast } from "react-toastify";
+import { crearCategorias } from "../../api/categoriasAberturas.api";
+import { useAberturasContext } from "../../context/AluminioAberturas";
 
-export const ModalCrearPerfil = ({ closeModal, isOpen }) => {
-  const { results, setPerfiles, categorias, colores } = useAluminioContext();
+export const ModalCrearNuevaCategoria = ({
+  isOpenCrearCategoria,
+  closeModalCrearCategoria,
+}) => {
+  const { categorias, setCategorias } = useAberturasContext();
 
   const {
     register,
@@ -15,16 +18,16 @@ export const ModalCrearPerfil = ({ closeModal, isOpen }) => {
     reset,
   } = useForm();
 
-  console.log(colores);
-
   const onSubmit = handleSubmit(async (data) => {
-    const { data: nuevoValor } = await crearPerfilNuevo(data);
+    const { data: nuevoValor } = await crearCategorias(data);
 
-    const proyectoActualizado = [...results, nuevoValor];
+    const categoriasActualizadas = [...categorias, nuevoValor];
 
-    setPerfiles(proyectoActualizado);
+    setCategorias(categoriasActualizadas);
 
-    toast.success("¡Producto creado correctamente!", {
+    console.log(nuevoValor);
+
+    toast.success("¡Categoria creada correctamente!", {
       position: "top-right",
       autoClose: 1500,
       hideProgressBar: false,
@@ -41,11 +44,11 @@ export const ModalCrearPerfil = ({ closeModal, isOpen }) => {
   return (
     <Menu as="div" className="z-50">
       <ToastContainer />
-      <Transition appear show={isOpen} as={Fragment}>
+      <Transition appear show={isOpenCrearCategoria} as={Fragment}>
         <Dialog
           as="div"
           className="fixed inset-0 z-10 overflow-y-auto"
-          onClose={closeModal}
+          onClose={closeModalCrearCategoria}
         >
           <Transition.Child
             as={Fragment}
@@ -93,77 +96,29 @@ export const ModalCrearPerfil = ({ closeModal, isOpen }) => {
                   as="h3"
                   className="text-lg font-medium leading-6 text-gray-900"
                 >
-                  Crear nuevo perfil
+                  Crear nueva categoria
                 </Dialog.Title>
                 <form
                   onSubmit={onSubmit}
                   className="mt-2 border-t pt-4 pb-4 space-y-2"
                 >
                   <div className="flex flex-col gap-2">
-                    <label className="text-[14px] font-bold">Codigo:</label>
-                    <input
-                      {...register("nombre", { required: true })}
-                      className="border-gray-300 border-[1px] py-2 px-2 rounded shadow shadow-black/10 outline-none"
-                      type="text"
-                      placeholder="nombre del codigo"
-                    />
-                  </div>
-                  <div className="flex flex-col gap-2">
-                    <label className="text-[14px] font-bold">Color:</label>
-                    <select
-                      {...register("color", { required: true })}
-                      className="border-gray-300 border-[1px] py-2 px-2 rounded shadow shadow-black/10 outline-none bg-white"
-                    >
-                      <option className="text-black">Seleccionar color</option>
-                      {colores.map((c) => (
-                        <option className="text-black" key={c.id}>
-                          {c.color}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                  <div className="flex flex-col gap-2">
                     <label className="text-[14px] font-bold">
-                      Stock total:
+                      Nombre de la categoria:
                     </label>
                     <input
-                      {...register("stock", { required: true })}
-                      className="border-gray-300 border-[1px] py-2 px-2 rounded shadow shadow-black/10 outline-none"
-                      type="number"
-                      placeholder="cantidad de productos"
-                    />
-                  </div>
-                  <div className="flex flex-col gap-2">
-                    <label className="text-[14px] font-bold">Categoria:</label>
-                    <select
                       {...register("categoria", { required: true })}
-                      className="border-gray-300 border-[1px] py-2 px-2 rounded shadow shadow-black/10 outline-none bg-white"
-                    >
-                      <option className="text-black" key={categorias.id}>
-                        Seleccionar categoria
-                      </option>
-                      {categorias.map((cat) => (
-                        <option className="text-black" key={cat.id}>
-                          {cat.categoria}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                  <div className="flex flex-col gap-2">
-                    <label className="text-[14px] font-bold">Detalle:</label>
-                    <input
-                      {...register("descripcion", { required: true })}
                       className="border-gray-300 border-[1px] py-2 px-2 rounded shadow shadow-black/10 outline-none"
                       type="text"
-                      placeholder="detalle ej perfil pesado ventana"
+                      placeholder="nombre de la categoria"
                     />
                   </div>
                   <div className="flex flex-col gap-2">
                     <input
                       className="bg-secondary hover:shadow-black/20 hover:shadow transition-all ease-in-out py-2 px-2 rounded shadow shadow-black/10 outline-none text-white font-bold text-center cursor-pointer"
                       type="submit"
-                      value={"Crear producto"}
-                      onClick={closeModal}
+                      value={"Crear categoria"}
+                      onClick={closeModalCrearCategoria}
                     />
                   </div>
                 </form>
@@ -172,7 +127,7 @@ export const ModalCrearPerfil = ({ closeModal, isOpen }) => {
                   <button
                     type="button"
                     className="inline-flex justify-center px-4 py-2 text-sm text-red-900 bg-red-100 border border-transparent rounded-md hover:bg-red-200 duration-300 cursor-pointer"
-                    onClick={closeModal}
+                    onClick={closeModalCrearCategoria}
                   >
                     Cerrar Ventana
                   </button>

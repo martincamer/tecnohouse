@@ -1,17 +1,20 @@
 //imports
 import { createContext, useContext, useEffect, useState } from "react";
-import { obtenerDatosPerfiles } from "../api/perfiles.api";
+import { obtenerDatosPerfiles } from "../api/aberturas.api";
 import axios from "../api/axios";
 import { toast } from "react-toastify";
-import { eliminarCategoria, obtenerCategorias } from "../api/categorias.api";
-import { eliminarColor, obtenerColores } from "../api/colores.api";
+import {
+  eliminarCategoria,
+  obtenerCategorias,
+} from "../api/categoriasAberturas.api";
+import { eliminarColor, obtenerColores } from "../api/coloresAberturas.api";
 
 //context
-export const AluminioContext = createContext();
+export const AberturasContext = createContext();
 
 //use context
-export const useAluminioContext = () => {
-  const context = useContext(AluminioContext);
+export const useAberturasContext = () => {
+  const context = useContext(AberturasContext);
   if (!context) {
     throw new Error("use Auth propvider");
   }
@@ -19,7 +22,7 @@ export const useAluminioContext = () => {
 };
 
 //provider
-export const AluminioProvider = ({ children }) => {
+export const AberturasProvider = ({ children }) => {
   const [perfiles, setPerfiles] = useState([]);
   const [categorias, setCategorias] = useState([]);
   const [colores, setColores] = useState([]);
@@ -136,7 +139,7 @@ export const AluminioProvider = ({ children }) => {
     });
   }, []);
 
-  const eliminarPerfil = (id) => axios.delete(`/perfiles/${id}`);
+  const eliminarPerfil = (id) => axios.delete(`/productos/${id}`);
 
   const handleEliminar = (id) => {
     eliminarPerfil(id);
@@ -214,7 +217,7 @@ export const AluminioProvider = ({ children }) => {
   };
 
   return (
-    <AluminioContext.Provider
+    <AberturasContext.Provider
       value={{
         perfiles,
         handleEliminar,
@@ -262,6 +265,6 @@ export const AluminioProvider = ({ children }) => {
       }}
     >
       {children}
-    </AluminioContext.Provider>
+    </AberturasContext.Provider>
   );
 };

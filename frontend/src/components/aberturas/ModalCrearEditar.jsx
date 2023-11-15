@@ -1,13 +1,13 @@
 import { Dialog, Menu, Transition } from "@headlessui/react";
 import { Fragment, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { editarPerfil, obtenerUnicoPerfil } from "../../api/perfiles.api";
-import { useAluminioContext } from "../../context/AluminioProvider";
+import { editarPerfil, obtenerUnicoPerfil } from "../../api/aberturas.api";
 import { ToastContainer, toast } from "react-toastify";
+import { useAberturasContext } from "../../context/AluminioAberturas";
 
 export const ModalCrearEditar = ({ closeModalEditar, isOpenEditar }) => {
   const { obtenerId, results, setPerfiles, categorias, colores } =
-    useAluminioContext();
+    useAberturasContext();
 
   const {
     register,
@@ -27,6 +27,8 @@ export const ModalCrearEditar = ({ closeModalEditar, isOpenEditar }) => {
       setValue("categoria", res.data.categoria);
       setValue("descripcion", res.data.descripcion);
       setValue("disponible", res.data.disponible);
+      setValue("alto", res.data.alto);
+      setValue("ancho", res.data.ancho);
       setValue("id", res.data.id);
     }
     loadData();
@@ -113,7 +115,7 @@ export const ModalCrearEditar = ({ closeModalEditar, isOpenEditar }) => {
                   as="h3"
                   className="text-lg font-medium leading-6 text-gray-900"
                 >
-                  Editar el perfil
+                  Editar el producto
                 </Dialog.Title>
                 <form
                   onSubmit={onSubmitEditar}
@@ -171,12 +173,38 @@ export const ModalCrearEditar = ({ closeModalEditar, isOpenEditar }) => {
                   </div>
                   <div className="flex flex-col gap-2">
                     <label className="text-[14px] font-bold">Detalle:</label>
-                    <input
+                    <textarea
                       {...register("descripcion", { required: true })}
                       className="border-gray-300 border-[1px] py-2 px-2 rounded shadow shadow-black/10 outline-none"
                       type="text"
                       placeholder="detalle ej perfil pesado ventana"
                     />
+                  </div>
+                  <div className="flex flex-col gap-2">
+                    <label className="text-[14px] font-bold">
+                      Alto de la abertura:
+                    </label>
+                    <div>
+                      <input
+                        {...register("alto", { required: true })}
+                        className="border-gray-300 border-[1px] py-2 px-2 rounded shadow shadow-black/10 outline-none w-[120px]"
+                        type="number"
+                        placeholder="alto"
+                      />
+                    </div>
+                  </div>
+                  <div className="flex flex-col gap-2">
+                    <label className="text-[14px] font-bold">
+                      Ancho de la abertura:
+                    </label>
+                    <div>
+                      <input
+                        {...register("ancho", { required: true })}
+                        className="border-gray-300 border-[1px] py-2 px-2 rounded shadow shadow-black/10 outline-none w-[120px]"
+                        type="number"
+                        placeholder="ancho"
+                      />
+                    </div>
                   </div>
                   <div className="flex flex-col gap-2">
                     <label className="text-[14px] font-bold">ID:</label>
